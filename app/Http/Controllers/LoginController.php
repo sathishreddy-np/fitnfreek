@@ -44,8 +44,8 @@ class LoginController extends Controller
                 ]);
             }
 
-            // Delete OTP
-            Otp::where('otp', $otp->id)->forceDelete();
+            // Delete OTP. So that they can use only once
+            $otp = Otp::where('otp', $otp->otp)->delete();
 
             // Generate Sanctum token for the user
             $token = $user->createToken($request->mobile)->plainTextToken;
