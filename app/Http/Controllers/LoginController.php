@@ -18,6 +18,13 @@ class LoginController extends Controller
                 'otp' => 'required|digits:6',
             ]);
 
+            // Check OTP generated or not.
+            $mobile = Otp::where('mobile', $request->mobile)->first();
+
+            if(!$mobile){
+                return response()->json(['error' => 'OTP not generated. Please refresh the page and try again.']);
+            }
+
             // Verify the OTP here
             $otp = Otp::where('mobile', $request->mobile)
                 ->where('otp', $request->otp)
@@ -26,7 +33,7 @@ class LoginController extends Controller
                 ->first();
 
             if (!$otp) {
-                return response()->json(['error' => 'Please enter latest otp received.']);
+                return response()->json(['error' => 'OTP expired, please enter latest one.']);
             }
 
             // If OTP verification is successful, find or create the user
