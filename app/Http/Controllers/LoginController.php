@@ -74,7 +74,7 @@ class LoginController extends Controller
             ]);
 
             if (!$otp) {
-                return response()->json(['error' => 'Please refresh the page and try again.s']);
+                return response()->json(['error' => 'Please refresh the page and try again.']);
             }
 
             return response()->json(
