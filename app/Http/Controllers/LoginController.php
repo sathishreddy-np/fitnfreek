@@ -6,7 +6,6 @@ use App\Models\Otp;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpKernel\HttpCache\Esi;
 
 class LoginController extends Controller
 {
@@ -21,7 +20,7 @@ class LoginController extends Controller
             // Check OTP generated or not.
             $mobile = Otp::where('mobile', $request->mobile)->first();
 
-            if(!$mobile){
+            if (! $mobile) {
                 return response()->json(['error' => 'OTP not generated. Please refresh the page and try again.']);
             }
 
@@ -32,13 +31,13 @@ class LoginController extends Controller
                 ->orderByDesc('id')
                 ->first();
 
-            if (!$otp) {
+            if (! $otp) {
                 return response()->json(['error' => 'OTP expired, please enter latest one.']);
             }
 
             // If OTP verification is successful, find or create the user
             $user = User::where('mobile', $request->mobile)->first();
-            if (!$user) {
+            if (! $user) {
                 $user = User::create([
                     'mobile' => $request->mobile,
                 ]);
@@ -70,17 +69,17 @@ class LoginController extends Controller
             $otp = Otp::create([
                 'mobile' => $request->mobile,
                 'otp' => $random_otp,
-                'expire_at' => now()->addSeconds(60)->timestamp
+                'expire_at' => now()->addSeconds(60)->timestamp,
             ]);
 
-            if (!$otp) {
+            if (! $otp) {
                 return response()->json(['error' => 'Please refresh the page and try again.']);
             }
 
             return response()->json(
                 [
                     'success' => 'OTP generated successfully.',
-                    'otp' => $otp->otp
+                    'otp' => $otp->otp,
                 ]
             );
         } catch (ValidationException $e) {
