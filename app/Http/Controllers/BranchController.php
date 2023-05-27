@@ -41,7 +41,7 @@ class BranchController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Company $company, StoreBranchRequest $request)
+    public function store(StoreBranchRequest $request,Company $company)
     {
         try {
             $branch = new Branch();

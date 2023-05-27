@@ -3,6 +3,7 @@
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SlotController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('companies', CompanyController::class);
     Route::apiResource('companies.branches', BranchController::class);
+    Route::apiResource('companies.branches.slots', SlotController::class);
 });
 
 // Autentication
