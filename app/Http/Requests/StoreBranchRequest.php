@@ -5,9 +5,8 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rule;
 
-class UpdateCompanyRequest extends FormRequest
+class StoreBranchRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,15 +23,9 @@ class UpdateCompanyRequest extends FormRequest
      */
     public function rules(): array
     {
-        $company_id = $this->route('company');
-
         return [
-            'company_name' => [
-                'required',
-                'min:3',
-                'max:55',
-                Rule::unique('companies', 'company_name')->ignore($company_id, 'id'),
-            ],
+            'branch_name' => ['required', 'min:3', 'max:55', 'unique:branches,branch_name'],
+            'is_main_branch' => ['required','boolean']
         ];
     }
 
