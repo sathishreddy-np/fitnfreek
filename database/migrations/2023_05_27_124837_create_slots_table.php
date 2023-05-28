@@ -15,18 +15,20 @@ return new class extends Migration
         $hours = range(0, 23);
         $minutes = range(0, 60);
         $age = range(0, 100);
-        $slot_types = ['One-time','Subscription','Summer Camp','Others'];
-        $gender = ['Male','Female','Kids'];
+        $slot_types = ['One-time', 'Subscription', 'Summer Camp', 'Others'];
+        $gender = ['Male', 'Female', 'Kids'];
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        $sports = ['Swimming', 'Gym', 'Cricket', 'Badminton', 'Tennis'];
+        $no_of_slots = range(0, 1000);
 
-        Schema::create('slots', function (Blueprint $table) use ($hours, $minutes, $age, $gender, $days, $slot_types) {
+        Schema::create('slots', function (Blueprint $table) use ($hours, $minutes, $age, $gender, $days, $slot_types, $sports, $no_of_slots) {
             $table->id();
             $table->foreignId('company_id')->constrained()->cascadeOnDelete();
             $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
-            $table->string('sport', 55);
+            $table->enum('sport', $sports);
             $table->enum('slot_type', $slot_types);
             $table->enum('day', $days);
-            $table->integer('slots');
+            $table->enum('no_of_slots', $no_of_slots);
             $table->enum('starts_at_hours', $hours);
             $table->enum('starts_at_minutes', $minutes);
             $table->enum('ends_at_hours', $hours);

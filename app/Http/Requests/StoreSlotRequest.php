@@ -26,11 +26,16 @@ class StoreSlotRequest extends FormRequest
         return [
             'slots' => 'required|array',
             'slots.*.day' => 'required|in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday',
-            'slots.*.sport' => 'required|min:3|max:55',
-            'slots.*.slot_type' => 'required|min:3|max:55',
-            'slots.*.slots' => 'required|integer',
-            'slots.*.starts_at' => 'required|in:,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23',
-            'slots.*.ends_at' => 'required|in:,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23',
+            'slots.*.sport' => 'required|in:Swimming,Gym,Cricket,Badminton,Tennis',
+            'slots.*.slot_type' => 'required|in:One-time,Subscription,Summer-Camp,Others',
+            'slots.*.no_of_slots' => 'required|numeric|min:0|max:23',
+            'slots.*.starts_at_hours' => 'required|numeric|min:0|max:23',
+            'slots.*.starts_at_minutes' => 'required|numeric|min:0|max:60',
+            'slots.*.ends_at_hours' => 'required|numeric|min:0|max:23',
+            'slots.*.ends_at_minutes' => 'required|numeric|min:0|max:60',
+            'slots.*.allowed_gender' => 'required',
+            'slots.*.allowed_age_from' => 'required|numeric|min:0|max:100',
+            'slots.*.allowed_age_to' => 'required|numeric|min:0|max:100',
         ];
     }
 

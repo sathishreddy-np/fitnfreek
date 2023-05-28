@@ -46,6 +46,7 @@ class SlotController extends Controller
     public function store(StoreSlotRequest $request, Company $company, Branch $branch)
     {
         try {
+
             foreach ($request->slots as $each_slot) {
                 $slot = new Slot();
                 $slot->company_id = $company->id;
@@ -53,9 +54,14 @@ class SlotController extends Controller
                 $slot->sport = $each_slot['sport'];
                 $slot->slot_type = $each_slot['slot_type'];
                 $slot->day = $each_slot['day'];
-                $slot->slots = $each_slot['slots'];
-                $slot->starts_at = $each_slot['starts_at'];
-                $slot->ends_at = $each_slot['ends_at'];
+                $slot->no_of_slots = $each_slot['no_of_slots'];
+                $slot->starts_at_hours = $each_slot['starts_at_hours'];
+                $slot->starts_at_minutes = $each_slot['starts_at_minutes'];
+                $slot->ends_at_hours = $each_slot['ends_at_hours'];
+                $slot->ends_at_minutes = $each_slot['ends_at_minutes'];
+                $slot->allowed_gender = implode(',', $each_slot['allowed_gender']);
+                $slot->allowed_age_from = $each_slot['allowed_age_from'];
+                $slot->allowed_age_to = $each_slot['allowed_age_to'];
                 $slot->save();
             }
 
