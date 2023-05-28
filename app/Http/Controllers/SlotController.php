@@ -55,35 +55,45 @@ class SlotController extends Controller
                     Slot::with('slot_classifications')->find($old_slot->id)->delete();
                 }
 
-                foreach ($request->slots as $each_slot) {
-                    $slot = new Slot();
-                    $slot->company_id = $company->id;
-                    $slot->branch_id = $branch->id;
-                    $slot->sport = $each_slot['sport'];
-                    $slot->slot_type = $each_slot['slot_type'];
-                    $slot->day = $each_slot['day'];
-                    $slot->no_of_slots = $each_slot['no_of_slots'] + 1;
-                    $slot->starts_at_hours = $each_slot['starts_at_hours'] + 1;
-                    $slot->starts_at_minutes = $each_slot['starts_at_minutes'] + 1;
-                    $slot->ends_at_hours = $each_slot['ends_at_hours'] + 1;
-                    $slot->ends_at_minutes = $each_slot['ends_at_minutes'] + 1;
-                    $slot->save();
-
-                    foreach ($each_slot['slot_classifications'] as $each_classification) {
-                        $slot_classification = new SlotClassification();
-                        $slot_classification->slot_id = $slot->id;
-                        $slot_classification->allowed_gender = $each_classification['allowed_gender'];
-                        $slot_classification->allowed_age_from = $each_classification['allowed_age_from'];
-                        $slot_classification->allowed_age_to = $each_classification['allowed_age_to'];
-                        $slot_classification->amount = $each_classification['amount'];
-                        $slot_classification->save();
-                    }
-                }
+                $this->storeSlots($request->slots, $company, $branch);
             });
 
             return response()->json(['success' => "Slots created successfully for $branch->branch_name branch of $company->company_name."], 201);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    private function storeSlots($slots, $company, $branch)
+    {
+        foreach ($slots as $each_slot) {
+            $slot = new Slot();
+            $slot->company_id = $company->id;
+            $slot->branch_id = $branch->id;
+            $slot->sport = $each_slot['sport'];
+            $slot->slot_type = $each_slot['slot_type'];
+            $slot->day = $each_slot['day'];
+            $slot->no_of_slots = $each_slot['no_of_slots'] + 1;
+            $slot->starts_at_hours = $each_slot['starts_at_hours'] + 1;
+            $slot->starts_at_minutes = $each_slot['starts_at_minutes'] + 1;
+            $slot->ends_at_hours = $each_slot['ends_at_hours'] + 1;
+            $slot->ends_at_minutes = $each_slot['ends_at_minutes'] + 1;
+            $slot->save();
+
+            $this->storeSlotClassifications($each_slot['slot_classifications'], $slot);
+        }
+    }
+
+    private function storeSlotClassifications($slot_classifications, $slot)
+    {
+        foreach ($slot_classifications as $each_classification) {
+            $slot_classification = new SlotClassification();
+            $slot_classification->slot_id = $slot->id;
+            $slot_classification->allowed_gender = $each_classification['allowed_gender'];
+            $slot_classification->allowed_age_from = $each_classification['allowed_age_from'];
+            $slot_classification->allowed_age_to = $each_classification['allowed_age_to'];
+            $slot_classification->amount = $each_classification['amount'];
+            $slot_classification->save();
         }
     }
 
