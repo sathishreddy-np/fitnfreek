@@ -14,14 +14,12 @@ return new class extends Migration
 
         $hours = range(0, 23);
         $minutes = range(0, 60);
-        $age = range(0, 100);
         $slot_types = ['One-time', 'Subscription', 'Summer Camp', 'Others'];
-        $gender = ['Male', 'Female', 'Kids'];
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         $sports = ['Swimming', 'Gym', 'Cricket', 'Badminton', 'Tennis'];
         $no_of_slots = range(0, 1000);
 
-        Schema::create('slots', function (Blueprint $table) use ($hours, $minutes, $age, $gender, $days, $slot_types, $sports, $no_of_slots) {
+        Schema::create('slots', function (Blueprint $table) use ($hours, $minutes, $days, $slot_types, $sports, $no_of_slots) {
             $table->id();
             $table->foreignId('company_id')->constrained()->cascadeOnDelete();
             $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
@@ -33,9 +31,6 @@ return new class extends Migration
             $table->enum('starts_at_minutes', $minutes);
             $table->enum('ends_at_hours', $hours);
             $table->enum('ends_at_minutes', $minutes);
-            $table->set('allowed_gender', $gender);
-            $table->enum('allowed_age_from', $age);
-            $table->enum('allowed_age_to', $age);
             $table->timestamps();
         });
     }
