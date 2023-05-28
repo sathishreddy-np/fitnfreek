@@ -33,11 +33,11 @@ class UpdateBranchRequest extends FormRequest
                 'max:55',
                 Rule::unique('branches', 'branch_name')->ignore($branch_id, 'id'),
             ],
-            'is_main_branch' => ['required','boolean']
+            'is_main_branch' => ['required', 'boolean'],
         ];
     }
 
-        /**
+    /**
      * Handle a failed validation attempt.
      *
      * @return void
@@ -50,5 +50,4 @@ class UpdateBranchRequest extends FormRequest
             response()->json(['errors' => $validator->errors()], 422)
         );
     }
-
 }

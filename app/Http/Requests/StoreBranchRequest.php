@@ -25,7 +25,7 @@ class StoreBranchRequest extends FormRequest
     {
         return [
             'branch_name' => ['required', 'min:3', 'max:55', 'unique:branches,branch_name'],
-            'is_main_branch' => ['required','boolean']
+            'is_main_branch' => ['required', 'boolean'],
         ];
     }
 
