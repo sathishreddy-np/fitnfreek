@@ -33,9 +33,10 @@ class StoreSlotRequest extends FormRequest
             'slots.*.starts_at_minutes' => 'required|numeric|min:0|max:60',
             'slots.*.ends_at_hours' => 'required|numeric|min:0|max:23',
             'slots.*.ends_at_minutes' => 'required|numeric|min:0|max:60',
-            'slots.*.allowed_gender' => 'required',
-            'slots.*.allowed_age_from' => 'required|numeric|min:0|max:100',
-            'slots.*.allowed_age_to' => 'required|numeric|min:0|max:100',
+            'slots.*.slot_classifications.*.allowed_gender' => 'required',
+            'slots.*.slot_classifications.*.allowed_age_from' => 'required|numeric|min:0|max:100',
+            'slots.*.slot_classifications.*.allowed_age_to' => 'required|numeric|min:0|max:100',
+            'slots.*.slot_classifications.*.amount' => 'required|numeric',
         ];
     }
 
