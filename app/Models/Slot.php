@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Slot extends Model
 {
     use HasFactory;
+
+    public function slot_classifications()
+    {
+        return $this->hasMany(SlotClassification::class);
+    }
 }

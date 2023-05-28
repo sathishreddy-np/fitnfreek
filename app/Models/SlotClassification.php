@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class SlotClassification extends Model
 {
     use HasFactory;
+
+    public function slot()
+    {
+        return $this->belongsTo(Slot::class);
+    }
 }

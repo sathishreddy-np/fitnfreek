@@ -14,7 +14,7 @@ return new class extends Migration
         $age = range(1, 100);
         $gender = ['Male', 'Female', 'Kids'];
 
-        Schema::create('slot_classifications', function (Blueprint $table) use($age,$gender) {
+        Schema::create('slot_classifications', function (Blueprint $table) use ($age, $gender) {
             $table->id();
             $table->foreignId('slot_id')->constrained()->cascadeOnDelete();
             $table->enum('allowed_gender', $gender);

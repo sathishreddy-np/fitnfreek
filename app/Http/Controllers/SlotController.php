@@ -8,7 +8,7 @@ use App\Models\Branch;
 use App\Models\Company;
 use App\Models\Slot;
 use App\Models\SlotClassification;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class SlotController extends Controller
 {
@@ -47,49 +47,41 @@ class SlotController extends Controller
     public function store(StoreSlotRequest $request, Company $company, Branch $branch)
     {
         try {
+            DB::transaction(function () use ($request, $company, $branch) {
+                $old_slot = Slot::where('company_id', $company->id)
+                    ->where('branch_id', $branch->id)->first();
 
-            foreach ($request->slots as $each_slot) {
-                $slot = new Slot();
-                $slot->company_id = $company->id;
-                $slot->branch_id = $branch->id;
-                $slot->sport = $each_slot['sport'];
-                $slot->slot_type = $each_slot['slot_type'];
-                $slot->day = $each_slot['day'];
-                $slot->no_of_slots = $each_slot['no_of_slots']+1;
-                $slot->starts_at_hours = $each_slot['starts_at_hours']+1;
-                $slot->starts_at_minutes = $each_slot['starts_at_minutes']+1;
-                $slot->ends_at_hours = $each_slot['ends_at_hours']+1;
-                $slot->ends_at_minutes = $each_slot['ends_at_minutes']+1;
-                $slot->save();
-
-
-                foreach ($each_slot['slot_classifications'] as $each_classification) {
-                    $slot_classification = new SlotClassification();
-                    $slot_classification->slot_id = $slot->id;
-                    $slot_classification->allowed_gender = $each_classification['allowed_gender'];
-                    $slot_classification->allowed_age_from = $each_classification['allowed_age_from'];
-                    $slot_classification->allowed_age_to = $each_classification['allowed_age_to'];
-                    $slot_classification->amount = $each_classification['amount'];
-                    $slot_classification->save();
+                if ($old_slot) {
+                    Slot::with('slot_classifications')->find($old_slot->id)->delete();
                 }
-            }
 
-            $old_slot = Slot::where('company_id', $company->id)
-            ->where('branch_id', $branch->id)->first();
+                foreach ($request->slots as $each_slot) {
+                    $slot = new Slot();
+                    $slot->company_id = $company->id;
+                    $slot->branch_id = $branch->id;
+                    $slot->sport = $each_slot['sport'];
+                    $slot->slot_type = $each_slot['slot_type'];
+                    $slot->day = $each_slot['day'];
+                    $slot->no_of_slots = $each_slot['no_of_slots'] + 1;
+                    $slot->starts_at_hours = $each_slot['starts_at_hours'] + 1;
+                    $slot->starts_at_minutes = $each_slot['starts_at_minutes'] + 1;
+                    $slot->ends_at_hours = $each_slot['ends_at_hours'] + 1;
+                    $slot->ends_at_minutes = $each_slot['ends_at_minutes'] + 1;
+                    $slot->save();
 
+                    foreach ($each_slot['slot_classifications'] as $each_classification) {
+                        $slot_classification = new SlotClassification();
+                        $slot_classification->slot_id = $slot->id;
+                        $slot_classification->allowed_gender = $each_classification['allowed_gender'];
+                        $slot_classification->allowed_age_from = $each_classification['allowed_age_from'];
+                        $slot_classification->allowed_age_to = $each_classification['allowed_age_to'];
+                        $slot_classification->amount = $each_classification['amount'];
+                        $slot_classification->save();
+                    }
+                }
+            });
 
-            Slot::where('company_id', $company->id)
-                ->where('branch_id', $branch->id)
-                ->where('created_at', '<', Carbon::parse($slot->created_at)->subSeconds(3))
-                ->delete();
-
-            if($slot){
-                SlotClassification::where('slot_id', $old_slot->id)
-                ->where('created_at', '<', Carbon::parse($slot->created_at)->subSeconds(3))
-                ->delete();
-            }
-
-            return response()->json(['success' => "Slots created successfully for $branch->branch_name branch of $company->company_name. "], 201);
+            return response()->json(['success' => "Slots created successfully for $branch->branch_name branch of $company->company_name."], 201);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
