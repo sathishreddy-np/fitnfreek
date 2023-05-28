@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('branches', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->constrained()->cascadeOnDelete();
-            $table->string('branch_name');
+            $table->string('branch_name',55);
             $table->boolean('is_main_branch');
             $table->timestamps();
         });

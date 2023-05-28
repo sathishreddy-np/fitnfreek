@@ -15,7 +15,7 @@ class BranchController extends Controller
     public function index(Company $company)
     {
         try {
-            $branches = Branch::select('id', 'branch_name','is_main_branch')
+            $branches = Branch::select('id', 'branch_name', 'is_main_branch')
                 ->where('company_id', $company->id)
                 ->orderBy('is_main_branch', 'desc')
                 ->orderBy('branch_name', 'asc')
@@ -41,7 +41,7 @@ class BranchController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBranchRequest $request,Company $company)
+    public function store(StoreBranchRequest $request, Company $company)
     {
         try {
             $branch = new Branch();
@@ -50,8 +50,8 @@ class BranchController extends Controller
             $branch->is_main_branch = $request->is_main_branch;
             $branch->save();
 
-            if($request->is_main_branch){
-                Branch::where('company_id',$company->id)->whereNot('id',$branch->id)->update(['is_main_branch' => 0]);
+            if ($request->is_main_branch) {
+                Branch::where('company_id', $company->id)->whereNot('id', $branch->id)->update(['is_main_branch' => 0]);
             }
 
             return response()->json(['success' => "$branch->branch_name created successfully for $company->company_name."], 201);
@@ -99,8 +99,8 @@ class BranchController extends Controller
             $branch->is_main_branch = $request->is_main_branch;
             $branch->save();
 
-            if($request->is_main_branch){
-                Branch::where('company_id',$company->id)->whereNot('id',$branch->id)->update(['is_main_branch' => 0]);
+            if ($request->is_main_branch) {
+                Branch::where('company_id', $company->id)->whereNot('id', $branch->id)->update(['is_main_branch' => 0]);
             }
 
             return response()->json(['success' => "$branch->branch_name updated successfully for $company->company_name."], 201);

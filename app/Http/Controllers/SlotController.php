@@ -47,23 +47,22 @@ class SlotController extends Controller
     {
         try {
             foreach ($request->slots as $each_slot) {
-
                 $slot = new Slot();
                 $slot->company_id = $company->id;
                 $slot->branch_id = $branch->id;
+                $slot->sport = $each_slot['sport'];
+                $slot->slot_type = $each_slot['slot_type'];
                 $slot->day = $each_slot['day'];
                 $slot->slots = $each_slot['slots'];
                 $slot->starts_at = $each_slot['starts_at'];
-                $slot->ends_at  = $each_slot['ends_at'];
+                $slot->ends_at = $each_slot['ends_at'];
                 $slot->save();
             }
 
-
             Slot::where('company_id', $company->id)
-            ->where('branch_id', $branch->id)
-            ->where('created_at', '<', Carbon::parse($slot->created_at)->subSeconds(3))
-            ->delete();
-
+                ->where('branch_id', $branch->id)
+                ->where('created_at', '<', Carbon::parse($slot->created_at)->subSeconds(3))
+                ->delete();
 
             return response()->json(['success' => "Slots created successfully for $branch->branch_name branch of $company->company_name. "], 201);
         } catch (\Exception $e) {
