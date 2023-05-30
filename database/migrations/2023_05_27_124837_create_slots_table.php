@@ -14,7 +14,7 @@ return new class extends Migration
 
         $hours = range(0, 23);
         $minutes = range(0, 60);
-        $slot_types = ['One-time', 'Subscription', 'Summer Camp', 'Others'];
+        $slot_types = ['One-time', 'Subscription'];
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         $sports = ['Swimming', 'Gym', 'Cricket', 'Badminton', 'Tennis'];
         $no_of_slots = range(0, 1000);
@@ -25,6 +25,7 @@ return new class extends Migration
             $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
             $table->enum('sport', $sports);
             $table->enum('slot_type', $slot_types);
+            $table->string('slot_name', 55);
             $table->enum('day', $days);
             $table->enum('no_of_slots', $no_of_slots);
             $table->enum('starts_at_hours', $hours);

@@ -72,6 +72,7 @@ class SlotController extends Controller
             $slot->branch_id = $branch->id;
             $slot->sport = $each_slot['sport'];
             $slot->slot_type = $each_slot['slot_type'];
+            $slot->slot_name = $each_slot['slot_name'];
             $slot->day = $each_slot['day'];
             $slot->no_of_slots = $each_slot['no_of_slots'] + 1;
             $slot->starts_at_hours = $each_slot['starts_at_hours'] + 1;
