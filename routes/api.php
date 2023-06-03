@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookSlotController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\LoginController;
@@ -26,6 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('companies', CompanyController::class);
     Route::apiResource('companies.branches', BranchController::class);
     Route::apiResource('companies.branches.slots', SlotController::class);
+    Route::apiResource('companies.branches.bookslots', BookSlotController::class);
 });
 
 // Autentication
