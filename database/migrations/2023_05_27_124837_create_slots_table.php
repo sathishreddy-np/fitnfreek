@@ -26,6 +26,7 @@ return new class extends Migration
             $table->enum('sport', $sports);
             $table->enum('slot_type', $slot_types);
             $table->string('slot_name', 55);
+            $table->integer('days_of_plan');
             $table->enum('day', $days);
             $table->enum('no_of_slots', $no_of_slots);
             $table->enum('starts_at_hours', $hours);

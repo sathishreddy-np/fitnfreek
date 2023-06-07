@@ -34,6 +34,7 @@ class BookSlotController extends Controller
 
         try {
             $bookSlot = new BookSlot();
+            $bookSlot->user_id = auth()->user()->id;
             $bookSlot->company_id = $company->id;
             $bookSlot->branch_id = $branch->id;
             $bookSlot->name = $request->name;

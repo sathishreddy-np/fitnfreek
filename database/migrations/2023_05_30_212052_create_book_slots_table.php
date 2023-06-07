@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('book_slots', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->references('id')->on('users');
             $table->foreignId('company_id')->references('id')->on('companies');
             $table->foreignId('branch_id')->references('id')->on('branches');
             $table->string('name', 55);
