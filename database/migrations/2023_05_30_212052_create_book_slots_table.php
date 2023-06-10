@@ -13,14 +13,17 @@ return new class extends Migration
     {
         Schema::create('book_slots', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->references('id')->on('users');
             $table->foreignId('company_id')->references('id')->on('companies');
             $table->foreignId('branch_id')->references('id')->on('branches');
+            $table->bigInteger('mobile');
             $table->string('name', 55);
             $table->integer('age');
             $table->string('gender', 55);
             $table->string('sport', 55);
             $table->string('slot_type', 55);
             $table->string('slot_name', 55);
+            $table->integer('no_of_times_allowed');
             $table->bigInteger('starts_at_unix');
             $table->bigInteger('ends_at_unix');
             $table->integer('starts_at_hours');

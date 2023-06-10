@@ -22,7 +22,7 @@ class BranchController extends Controller
                 ->get();
 
             return response()->json([
-                'success' => 'All branches list showing successfully.',
+                'success' => "$company->company_name company branches list showing successfully.",
                 'data' => $branches,
             ], 200);
         } catch (\Exception $e) {

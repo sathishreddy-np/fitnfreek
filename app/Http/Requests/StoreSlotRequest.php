@@ -29,7 +29,7 @@ class StoreSlotRequest extends FormRequest
             'slots.*.sport' => 'required|in:Swimming,Gym,Cricket,Badminton,Tennis',
             'slots.*.slot_type' => 'required|in:One-time,Subscription',
             'slots.*.slot_name' => 'required|min:3|max:55',
-            'slots.*.no_of_slots' => 'required|numeric|min:0|max:23',
+            'slots.*.no_of_slots' => 'required|numeric|min:0',
             'slots.*.starts_at_hours' => 'required|numeric|min:0|max:23',
             'slots.*.starts_at_minutes' => 'required|numeric|min:0|max:60',
             'slots.*.ends_at_hours' => 'required|numeric|min:0|max:23',

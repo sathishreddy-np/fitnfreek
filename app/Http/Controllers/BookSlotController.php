@@ -13,9 +13,9 @@ class BookSlotController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Company $company, Branch $branch)
     {
-
+        return BookSlot::where('company_id',$company->id)->where('branch_id',$branch->id)->get();
     }
 
     /**
@@ -34,14 +34,17 @@ class BookSlotController extends Controller
 
         try {
             $bookSlot = new BookSlot();
+            $bookSlot->user_id = auth()->user()->id;
             $bookSlot->company_id = $company->id;
             $bookSlot->branch_id = $branch->id;
+            $bookSlot->mobile = $request->mobile;
             $bookSlot->name = $request->name;
             $bookSlot->age = $request->age;
             $bookSlot->gender = $request->gender;
             $bookSlot->sport = $request->sport;
             $bookSlot->slot_type = $request->slot_type;
             $bookSlot->slot_name = $request->slot_name;
+            $bookSlot->no_of_times_allowed = $request->no_of_times_allowed;
             $bookSlot->starts_at_unix = $request->starts_at_unix;
             $bookSlot->ends_at_unix = $request->ends_at_unix;
             $bookSlot->starts_at_hours = $request->starts_at_hours;
@@ -95,12 +98,14 @@ class BookSlotController extends Controller
         try {
             $bookslot->company_id = $company->id;
             $bookslot->branch_id = $branch->id;
+            $bookslot->mobile = $request->mobile;
             $bookslot->name = $request->name;
             $bookslot->age = $request->age;
             $bookslot->gender = $request->gender;
             $bookslot->sport = $request->sport;
             $bookslot->slot_type = $request->slot_type;
             $bookslot->slot_name = $request->slot_name;
+            $bookslot->no_of_times_allowed = $request->no_of_times_allowed;
             $bookslot->starts_at_unix = $request->starts_at_unix;
             $bookslot->ends_at_unix = $request->ends_at_unix;
             $bookslot->starts_at_hours = $request->starts_at_hours;
