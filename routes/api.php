@@ -19,9 +19,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('companies', CompanyController::class);
@@ -31,5 +28,5 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 // Autentication
-Route::post('login', [LoginController::class, 'login'])->name('login');
+Route::post('login', [LoginController::class, 'login']);
 Route::post('generateOtp', [LoginController::class, 'generateOtp']);

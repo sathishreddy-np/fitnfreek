@@ -24,12 +24,14 @@ class UpdateBookSlotRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'mobile' => 'required|digits:10',
             'name' => 'required|string|max:55',
             'age' => 'required|integer',
             'gender' => 'required|string|max:55',
             'sport' => 'required|string|max:55',
             'slot_type' => 'required|string|max:55',
             'slot_name' => 'required|string|max:55',
+            'no_of_times_allowed' => 'required|integer',
             'starts_at_unix' => 'required|integer',
             'ends_at_unix' => 'required|integer',
             'starts_at_hours' => 'required|integer',

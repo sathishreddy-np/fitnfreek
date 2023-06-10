@@ -18,8 +18,7 @@ class SlotController extends Controller
     public function index(Company $company, Branch $branch)
     {
         try {
-            $slots = Slot::select('id', 'day', 'starts_at', 'ends_at')
-                ->where('company_id', $company->id)
+            $slots = Slot::with('slot_classifications')->where('company_id', $company->id)
                 ->where('branch_id', $branch->id)
                 ->orderBy('id', 'asc')
                 ->get();
@@ -48,16 +47,15 @@ class SlotController extends Controller
     {
         try {
             DB::transaction(function () use ($request, $company, $branch) {
-                $old_slot = Slot::where('company_id', $company->id)
-                    ->where('branch_id', $branch->id)->first();
+                $old_slot_ids = Slot::where('company_id', $company->id)
+                    ->where('branch_id', $branch->id)->pluck('id');
 
-                if ($old_slot) {
-                    Slot::with('slot_classifications')->find($old_slot->id)->delete();
+                if ($old_slot_ids->count() > 0) {
+                    Slot::with('slot_classifications')->whereIn('id', $old_slot_ids)->delete();
                 }
 
                 $this->storeSlots($request->slots, $company, $branch);
             });
-
             return response()->json(['success' => "Slots created successfully for $branch->branch_name branch of $company->company_name."], 201);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -74,6 +72,7 @@ class SlotController extends Controller
             $slot->slot_type = $each_slot['slot_type'];
             $slot->slot_name = $each_slot['slot_name'];
             $slot->days_of_plan = $each_slot['days_of_plan'];
+            $slot->no_of_times_allowed = $each_slot['no_of_times_allowed'];
             $slot->day = $each_slot['day'];
             $slot->no_of_slots = $each_slot['no_of_slots'] + 1;
             $slot->starts_at_hours = $each_slot['starts_at_hours'] + 1;
