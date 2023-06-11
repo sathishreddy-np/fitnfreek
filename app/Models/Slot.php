@@ -9,6 +9,8 @@ class Slot extends Model
 {
     use HasFactory;
 
+    protected $gaurded = [];
+
     public function slot_classifications()
     {
         return $this->hasMany(SlotClassification::class);

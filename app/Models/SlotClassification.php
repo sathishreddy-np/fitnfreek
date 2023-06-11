@@ -9,6 +9,8 @@ class SlotClassification extends Model
 {
     use HasFactory;
 
+    protected $gaurded =[];
+
     public function slot()
     {
         return $this->belongsTo(Slot::class);

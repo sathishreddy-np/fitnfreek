@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,8 @@ class BranchFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'branch_name' => fake()->city()."-".fake()->company() ,
+            'manager_id' => User::whereIn('id', [2, 3, 4])->inRandomOrder()->first()->id,
         ];
     }
 }
