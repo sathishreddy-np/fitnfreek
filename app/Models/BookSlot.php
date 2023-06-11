@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class BookSlot extends Model
 {
     use HasFactory;
+
+    protected $gaurded=[];
 }
