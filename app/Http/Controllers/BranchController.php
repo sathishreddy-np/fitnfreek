@@ -6,6 +6,7 @@ use App\Http\Requests\StoreBranchRequest;
 use App\Http\Requests\UpdateBranchRequest;
 use App\Models\Branch;
 use App\Models\Company;
+use Illuminate\Support\Facades\Auth;
 
 class BranchController extends Controller
 {
@@ -45,6 +46,8 @@ class BranchController extends Controller
     {
         try {
             $branch = new Branch();
+            $branch->user_id = Auth::id();
+            $branch->manager_id = $request->manager_id;
             $branch->company_id = $company->id;
             $branch->branch_name = $request->branch_name;
             $branch->is_main_branch = $request->is_main_branch;
@@ -94,6 +97,8 @@ class BranchController extends Controller
     public function update(UpdateBranchRequest $request, Company $company, Branch $branch)
     {
         try {
+            $branch->user_id = Auth::id();
+            $branch->manager_id = $request->manager_id;
             $branch->company_id = $company->id;
             $branch->branch_name = $request->branch_name;
             $branch->is_main_branch = $request->is_main_branch;
