@@ -15,7 +15,7 @@ class BookSlotController extends Controller
      */
     public function index(Company $company, Branch $branch)
     {
-        return BookSlot::where('company_id',$company->id)->where('branch_id',$branch->id)->get();
+        return BookSlot::where('user_id', auth()->user()->id)->where('company_id', $company->id)->where('branch_id', $branch->id)->get();
     }
 
     /**
@@ -67,7 +67,8 @@ class BookSlotController extends Controller
     {
         try {
 
-            $bookSlot = BookSlot::where('company_id', $company->id)
+            $bookSlot = BookSlot::where('user_id', auth()->user()->id)
+                ->where('company_id', $company->id)
                 ->where('branch_id', $branch->id)
                 ->where('id', $bookslot->id)
                 ->first();
@@ -127,7 +128,8 @@ class BookSlotController extends Controller
     public function destroy(Company $company, Branch $branch, BookSlot $bookslot)
     {
         try {
-            $bookSlot = BookSlot::where('company_id', $company->id)
+            $bookSlot = BookSlot::where('user_id', auth()->user()->id)
+                ->where('company_id', $company->id)
                 ->where('branch_id', $branch->id)
                 ->where('id', $bookslot->id)
                 ->first();

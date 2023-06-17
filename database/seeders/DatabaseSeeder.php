@@ -28,8 +28,8 @@ class DatabaseSeeder extends Seeder
         $this->assignManagerRole();
         $this->addCompanyForAdmin();
         $this->addBranchesForAdminAndManager();
-        // $this->slots();
-        // $this->slotClassifications();
+        $this->slots();
+        $this->slotClassifications();
         $this->bookSlots();
     }
 
